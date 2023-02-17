@@ -1,0 +1,28 @@
+mysql> create schema blog;
+
+mysql> use blog;
+
+mysql> create table users (
+    -> id int not null auto_increment,
+    -> username varchar(45) not null,
+    -> email varchar(255) not null,
+    -> password varchar(390) not null,
+    -> img varchar(255) null,
+    -> primary key (id));
+Query OK, 0 rows affected (0.80 sec)
+
+mysql> create table posts (
+    -> id int not null auto_increment,
+    -> title varchar(255) not null,
+    -> description varchar(3000) not null,
+    -> thumbnail varchar (255) not null,
+    -> created_at timestamp default current_timestamp,
+    -> updated_at datetime default current_timestamp on update current_timestamp,
+    -> uid int not null,
+    -> primary key(id),
+    -> index uid_idx (uid asc) visible,
+    -> constraint uid
+    -> foreign key (uid) references blog.users(id)
+    -> on delete cascade
+    -> on update cascade);
+Query OK, 0 rows affected (1.57 sec)
