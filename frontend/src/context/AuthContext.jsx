@@ -1,22 +1,19 @@
-
 import axios from "../axios";
-import { useState } from "react";
-import { createContext } from "react";
-import { useEffect } from "react";
+import { useState, useEffect, createContext } from "react";
 
-export const AuthContext = createContext()
+export const AuthContext = createContext();
 
 const AuthContextProvider = ({ children })=>{
     const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem("user")) || null);
 
     const login = async (inputs)=>{
-         const res = await axios.post("/auth/login/", inputs);
+         const res = await axios.post("/auth/login", inputs);
          setCurrentUser(res.data);
          console.log(res.data);
     }
 
     const logout = async ()=>{
-        const res = await axios.post("/auth/logout/");
+        const res = await axios.post("/auth/logout");
         setCurrentUser(null);
     }
 

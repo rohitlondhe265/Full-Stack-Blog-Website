@@ -1,37 +1,45 @@
-import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import axios from '../axios';
+import axios from "../axios";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-const Home = () => {
-
+const Menu = ({cat}) => {
   const [posts, setPosts] = useState([]);
-  const [error, setError] = useState(null);
-  const cat = useLocation().search;
 
   const fetchData = async () => {
     try {
-      const res = await axios.get(`/posts/${cat}`);
+      const res = await axios.get(`/posts/?category=${cat}`);
       setPosts(res.data);
-    } catch (error) {
-      setError(error);
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
+  console.log(cat);
 
   useEffect(() => {
-    fetchData()
+    fetchData();
   }, [cat]);
 
   return (
-    <section className="text-gray-600 flex flex-wrap">
+    // <div className="menu">
+    //   <h1>Other posts you may like</h1>
+    //   {posts.map((post) => (
+    //     <div className="post" key={post.id}>
+    //       <img src={`../upload/${post?.img}`} alt="thumbnail image" />
+    //       <h2>{post.title}</h2>
+    //       <button>Read More</button>
+    //     </div>
+    //   ))}
+    // </div>
+    <section className="flex flex-col w-full gap-2">
 
-      {posts.slice(0, 12).map((post) => {
+      {posts.slice(1, 4).map((post) => {
         const { id, title, description, thumbnail, created_at, category } = post;
         return (
-          <div key={id} className=" p-2 md:p-4 md:w-1/3">
+          <div key={id} className="">
             <div className="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
               <img className="lg:h-48 md:h-36 w-full object-cover object-center" src={thumbnail} alt="blog" />
-              <div className="p-6">
-                <span className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1 capitalize">{category}</span>
+              <div className="p-3">
+                <span className="tracking-widest text-xs title-font font-medium text-gray-400 capitalize">{category}</span>
                 <Link className="link" to={`/post/${id}`}>
                   <h1 className="title-font text-lg font-medium text-gray-900 mb-3">{title}</h1>
                 </Link>
@@ -51,7 +59,7 @@ const Home = () => {
       })}
 
     </section>
-  )
-}
+  );
+};
 
-export default Home
+export default Menu;

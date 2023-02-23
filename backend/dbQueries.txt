@@ -8,6 +8,7 @@ mysql> create table users (
     -> email varchar(255) not null,
     -> password varchar(390) not null,
     -> img varchar(255) null,
+    -> category varchar(45) null;
     -> primary key (id));
 Query OK, 0 rows affected (0.80 sec)
 
@@ -26,3 +27,13 @@ mysql> create table posts (
     -> on delete cascade
     -> on update cascade);
 Query OK, 0 rows affected (1.57 sec)
+
+mysql> INSERT INTO posts(`title`, `category`, `thumbnail`, `description`, `uid`) 
+                    VALUES ("hii", "web", "https://images.unsplash.com/photo-1508919801845-fc2ae1bc2a28?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1nfGVufDB8fDB8fA%3D%3D&w=1000&q=80", "hellow", 1);
+Query OK, 1 row affected (0.10 sec)
+
+mysql> INSERT INTO users(username, email, password) 
+                    VALUES ("rohit", "exp.com", "rohit");
+Query OK, 1 row affected (0.11 sec)
+
+

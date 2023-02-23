@@ -5,14 +5,14 @@ import usersRoutes from "./routes/users.js"
 import testRoutes from "./routes/example.js"
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import multer from "multer";
+import multer from 'multer';
 
 const app = express();
 const PORT = 8000;
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, "../client/public/upload");
+      cb(null, "../frontend/public/upload");
     },
     filename: function (req, file, cb) {
       cb(null, Date.now() + file.originalname);
@@ -31,7 +31,11 @@ app.use("/api/posts", postRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/users", usersRoutes);
 
+app.get("/api", (req, res)=>{
+  res.json("backend api routes are working");
+});
 app.use("/test", testRoutes);
+
 app.listen(PORT, ()=>{
     console.log(`Backend listening on port ${PORT}`);
 });

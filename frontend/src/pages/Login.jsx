@@ -1,12 +1,8 @@
-import React from 'react'
-import { useContext } from 'react';
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import axios from '../axios'
+import { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 const Login = () => {
-
   const [inputs, setInputs] = useState({
     username:"",
     password:""
@@ -48,7 +44,7 @@ const Login = () => {
             <div className="flex flex-col justify-center items-center">
               <button type="submit" onClick={handleSubmit} className="mt-4 bg-purple-500 text-white py-2 px-6 rounded-md hover:bg-purple-600 ">Login</button>
              {error && <p>{error}</p>}
-              <p className="text-sm mt-3 cursor-pointer hover:underline">Don't Have an Account? Register</p>
+              <Link className="text-sm mt-3 cursor-pointer hover:underline" to={"/register"}>Don't Have an Account? Register</Link>
             </div>
           </div>
         </div>
