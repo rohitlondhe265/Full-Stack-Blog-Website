@@ -2,6 +2,7 @@ import db from "../db.js"
 import mysql from 'mysql'
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import cookieParser from "cookie-parser";
 
 export const register = (req, res) => {
     // check for the existing user
@@ -46,14 +47,13 @@ export const login = (req, res) => {
         data[0].password
       );
       // if password is not correct 
-      if (!isPasswordCorrect)
-        return res.status(400).json("Wrong username or password!");
+      if (!isPasswordCorrect){
+        return res.status(400).json("Wrong username or password!");}
       // if password is correct then generate jwt
       const token = jwt.sign({ id: data[0].id }, "jwtkey");
       const { password, ...other } = data[0];
       // set the token as cookie in the browser
-      res.cookie("access_token", token).status(200).json(other);
-
+      res.cookie("access_token", token, { httpOnly: true }).status(200).json(other);
     });
   };
 
