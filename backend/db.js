@@ -5,9 +5,9 @@ const db = mysql.createPool({
    connectionLimit: 100,
    host: 'localhost',
    user: 'root',
-   password: 'Rohit9011@#',
+   password: 'Rohan9933@',
    database: 'blog',
-   debug: false
+   charset : 'utf8'
 });
 
 db.getConnection((error, connection) => {

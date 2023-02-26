@@ -17,6 +17,11 @@ const Home = () => {
     }
   }
 
+  const getText = (html) => {
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    return doc.body.textContent;
+  }
+
   useEffect(() => {
     fetchData()
   }, [cat]);
@@ -35,7 +40,7 @@ const Home = () => {
                 <Link className="link" to={`/post/${id}`}>
                   <h1 className="title-font text-lg font-medium text-gray-900 mb-3">{title}</h1>
                 </Link>
-                <p className="leading-relaxed mb-3">{description.slice(0, 99)}</p>
+                <p className="leading-relaxed mb-3">{getText(description.slice(0, 99))}</p>
                 <div className="flex items-center flex-wrap ">
                   <Link className="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0 cursor-pointer" to={`/post/${id}`}>Read More
                     <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
