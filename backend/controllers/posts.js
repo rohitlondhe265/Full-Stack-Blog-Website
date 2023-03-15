@@ -3,8 +3,26 @@ import mysql from "mysql";
 import jwt from "jsonwebtoken";
 
 export const getAllPosts = (req, res) => {
+
+    // const page = parseInt(req.query.page) - 1 || 0;
+    // const search = req.query.search || "";
+    // const sort = req.query.sort || "";
+    //   res:  {
+    //         data: [],    all response data
+    //         page: 1,     // current page
+    //         limit: 5,    // results per page
+    //         total: 50    // total pages
+    //     }
+    // const category = req.query.category || "";
+    // const limit = parseInt(req.query.limit) || 5;
+    // const skip = (page - 1) * limit;
+
     const getQuery = req.query.category ? "SELECT * FROM posts WHERE category = ?" : "SELECT * FROM posts";
-    const query = mysql.format(getQuery, [req.query.category]);
+    const values = [req.query.category]
+    // const getQuery = `SELECT * FROM posts WHERE category = ? ? LIKE ? LIMIT ? OFFSET ? ORDER BY ? ? `
+    // const values = [category, text, value, limit, skip, sort, order]
+
+    const query = mysql.format(getQuery, values);
     db.query(query, (err, data) => {
         if (err) return res.json(err);
         return res.status(200).json(data);
@@ -29,13 +47,14 @@ export const addPost = (req, res) => {
         if (err) return res.status(403).json("Token is not valid!");
         // if token is valid then add the post to database
         const addQuery = "INSERT INTO posts(`title`, `category`, `thumbnail`, `description`, `uid`) VALUES (?,?,?,?,?)";
-        const query = mysql.format(addQuery, [
+        const values = [
             req.body.title,
             req.body.category,
             req.body.thumbnail,
             req.body.description,
             userInfo.id,
-        ]);
+        ]
+        const query = mysql.format(addQuery, values);
         db.query(query, (err, data) => {
             if (err) return res.status(500).json(err);
             return res.json("Post has been created.");
@@ -55,7 +74,7 @@ export const deletePost = (req, res) => {
         const query = mysql.format(deleteQuery, [postId, userInfo.id]);
         db.query(query, (err, response) => {
             if (err) return res.status(403).json("You can delete only your post!");
-            return res.json({status:"Post has been deleted!", response});
+            return res.json({ status: "Post has been deleted!", response });
         });
     });
 }
@@ -72,7 +91,7 @@ export const updatePost = (req, res) => {
         const query = mysql.format(updateQuery, [req.body.title, req.body.description, req.body.thumbnail, req.body.category, postId, userInfo.id]);
         db.query(query, (err, response) => {
             if (err) return res.status(500).json(err);
-            return res.json({status:"Post has been updated.", response});
+            return res.json({ status: "Post has been updated.", response });
         });
     });
 }

@@ -69,7 +69,7 @@ const SinglePost = () => {
                 </div>)}
             </div>
             <h1 className='text-3xl text-violet-600 font-bold'>{title}</h1>
-            <article className="prose lg:prose-lg"
+            <article className="prose lg:text-xl"
                 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(description) }}>
             </article>
         </main>
